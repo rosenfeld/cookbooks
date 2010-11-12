@@ -7,3 +7,6 @@
 [submodule "rvm"]
 	path = rvm
 	url = git://github.com/fnichol/chef-rvm.git
+[submodule "rvm_passenger"]
+	path = rvm_passenger
+	url = git://github.com/fnichol/chef-rvm_passenger.git
