@@ -1,3 +1,6 @@
 [submodule "hostname"]
 	path = hostname
 	url = git://github.com/fnichol/chef-hostname.git
+[submodule "bashrc"]
+	path = bashrc
+	url = git://github.com/fnichol/chef-bashrc.git
