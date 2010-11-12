@@ -52,3 +52,17 @@ service "ssh" do
   action [ :enable, :start ]
 end
 
+case node[:platform]
+when "ubuntu"
+
+  if node.platform_version.to_f >= 10.10
+    template "/etc/ssh/sshd_config" do
+      source "sshd_config.erb"
+      owner "root"
+      group "root"
+      mode "0644"
+      notifies :restart, "service[ssh]", :immediately
+    end
+  end
+end
+
