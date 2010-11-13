@@ -4,8 +4,10 @@
 #
 # Author:: Adam Jacob (<adam@opscode.com>)
 # Author:: Joshua Timberman (<joshua@opscode.com>)
+# Author:: Fletcher Nichol (<fnichol@nichol.ca>)
 #
 # Copyright 2009, Opscode, Inc.
+# Copyright 2010, Fletcher Nichol
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,6 +38,7 @@ packages.each do |devpkg|
 end
 
 nginx_version = node[:nginx][:version]
+nginx_install = node[:nginx][:install_path]
 configure_flags = node[:nginx][:configure_flags].join(" ")
 node.set[:nginx][:daemon_disable] = true
 
@@ -52,6 +55,17 @@ bash "compile_nginx_source" do
     make && make install
   EOH
   creates node[:nginx][:src_binary]
+  only_if do
+    any_missing = false
+    node[:nginx][:configure_flags].each do |flag|
+      result = %x{
+        if ! #{nginx_install}/sbin/nginx -V 2>&1 | grep -q "#{flag}" ; then
+          echo missing
+        fi
+      }
+      any_missing = true if result.chomp == "missing"
+    end
+  end
 end
 
 directory node[:nginx][:log_dir] do
