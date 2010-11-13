@@ -8,9 +8,9 @@ GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, SHUTDOWN, PROCESS, F
 <% if node[:mysql][:repl_user_status] == "enabled" -%>
 # Grant replication for a slave user.
 <% if node[:mysql][:repl_user_ssl_status] == "enabled" -%>
-GRANT REPLICATION SLAVE ON *.* TO '<%= node[:mysql][:repl_user] %>'@'%' identified by '<%= node[:mysql][:server_repl_password] %>';
+GRANT REPLICATION SLAVE ON *.* TO '<%= node[:mysql][:repl_user] %>'@'%' identified by '<%= node[:mysql][:server_repl_password] %>' REQUIRE ISSUER '<%= node[:mysql][:repl_user_ssl_require_issuer] %>';
 <% else -%>
-GRANT REPLICATION SLAVE ON *.* TO '<%= node[:mysql][:repl_user] %>'@'%' identified by '<%= node[:mysql][:server_repl_password] %>' REQUIRE ISSUER '<%= node[:mysql][:repl_user_ssl_require_issuer]' %>;
+GRANT REPLICATION SLAVE ON *.* TO '<%= node[:mysql][:repl_user] %>'@'%' identified by '<%= node[:mysql][:server_repl_password] %>';
 <% end -%>
 <% end -%>
 
