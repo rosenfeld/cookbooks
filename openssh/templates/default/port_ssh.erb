@@ -1,2 +1,4 @@
 # SSH
--A FWR -p tcp -m tcp --dport 22 -j ACCEPT
+<% node[:openssh][:port].each do |port| -%>
+-A FWR -p tcp -m tcp --dport <%= port %> -j ACCEPT
+<% end -%>
