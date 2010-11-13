@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: users
-# Recipe:: sysadmins
+# Based on users::sysadmins
+# Recipe:: normal
 #
-# Copyright 2009, Opscode, Inc.
 # Copyright 2010, Fletcher Nichol
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,16 +17,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 sysadmin_group = Array.new
 
-if Chef::Config.solo
-  users = node[:users][:sysadmins]
-else
-  users = search(:users, 'groups:sysadmin')
-end
-
-users.each do |u|
-  sysadmin_group << u['id']
+node[:users][:normal].each do |u|
 
   if node[:apache] and node[:apache][:allowed_openids]
     Array(u['openid']).compact.each do |oid|
@@ -94,7 +88,3 @@ users.each do |u|
   end
 end
 
-group "sysadmin" do
-  gid 2300
-  members sysadmin_group
-end

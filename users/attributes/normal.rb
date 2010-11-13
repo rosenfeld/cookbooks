@@ -18,6 +18,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-if Chef::Config.solo
-  default[:users][:sysadmins] = Array.new
-end
+default[:users][:normal] = Array.new
