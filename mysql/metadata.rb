@@ -20,6 +20,26 @@ attribute "mysql/server_root_password",
   :description => "Randomly generated password for the mysqld root user",
   :default => "randomly generated"
 
+attribute "mysql/repl_user_status",
+  :display_name => "Is the repl user created?",
+  :description => "Whether or not the replication user is created. The possible values are 'enabled' and 'disabled'.",
+  :default => "disabled"
+
+attribute "mysql/repl_user",
+  :display_name => "Name of replication user",
+  :description => "Name of replication user",
+  :default => "repl"
+
+attribute "mysql/repl_user_ssl_status",
+  :display_name => "Does the repl user use SSL to connect?",
+  :description => "Whether or not the replication user uses SSL to connect to the master. The possible values are 'enabled' and 'disabled'.",
+  :default => "disabled"
+
+attribute "mysql/repl_user_ssl_require_issuer",
+  :display_name => "SSL issuer details for replication user",
+  :description => "SSL issuer details for replication user",
+  :default => ""
+
 attribute "mysql/bind_address",
   :display_name => "MySQL Bind Address",
   :description => "Address that mysqld should listen on",

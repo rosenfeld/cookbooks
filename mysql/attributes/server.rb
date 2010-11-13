@@ -25,6 +25,11 @@ set_unless[:mysql][:server_repl_password] = secure_password
 default[:mysql][:bind_address]         = ipaddress
 default[:mysql][:datadir]              = "/var/lib/mysql"
 
+default[:mysql][:repl_user_status] = "disabled"
+default[:mysql][:repl_user] = "repl"
+default[:mysql][:repl_user_ssl_status] = "disabled"
+default[:mysql][:repl_user_ssl_require_issuer] = ""
+
 if attribute?(:ec2)
   default[:mysql][:ec2_path]    = "/mnt/mysql"
   default[:mysql][:ebs_vol_dev] = "/dev/sdi"
