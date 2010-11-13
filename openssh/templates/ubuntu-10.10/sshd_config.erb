@@ -63,7 +63,7 @@ ChallengeResponseAuthentication no
 #GSSAPIAuthentication no
 #GSSAPICleanupCredentials yes
 
-X11Forwarding yes
+X11Forwarding <%= node[:openssh][:x11_forwarding] %>
 X11DisplayOffset 10
 PrintMotd no
 PrintLastLog yes

@@ -37,6 +37,11 @@ attribute "openssh/listen_address",
 
 attribute "openssh/permit_root_login",
   :display_name => "Specifies whether root can log in using ssh",
-  :description => "Specifies whether root can log in using ssh. The argument must be “yes”, “without-password”, “forced-commands-only”, or “no”.",
+  :description => %{Specifies whether root can log in using ssh. The argument must be “yes”, “without-password”, “forced-commands-only”, or “no”.},
   :default => "yes"
+
+attribute "openssh/x11_forwarding",
+  :display_name => "Specifies whether X11 forwarding is permitted",
+  :description => %{Specifies whether X11 forwarding is permitted. The argument must be “yes” or “no”.},
+  :default => "no"
 
