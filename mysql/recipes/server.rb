@@ -111,3 +111,15 @@ execute "mysql-install-privileges" do
   action :nothing
   subscribes :run, resources(:template => "/etc/mysql/grants.sql"), :immediately
 end
+
+case node[:platform]
+when "redhat","centos","debian","ubuntu"
+  iptables_rule "port_mysql" do
+    if node[:mysql][:enable_iptables] == "yes"
+      enable true
+    else
+      enable false
+    end
+  end
+end
+
