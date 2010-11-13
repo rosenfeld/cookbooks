@@ -57,7 +57,7 @@ bash "compile_nginx_source" do
   creates node[:nginx][:src_binary]
   only_if do
     any_missing = false
-    node[:nginx][:configure_flags].each do |flag|
+    configure_flags.split(" ").each do |flag|
       result = %x{
         if ! #{nginx_install}/sbin/nginx -V 2>&1 | grep -q "#{flag}" ; then
           echo missing
