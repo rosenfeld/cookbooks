@@ -39,6 +39,9 @@ end
 
 nginx_version = node[:nginx][:version]
 nginx_install = node[:nginx][:install_path]
+unless node[:nginx][:extra_configure_flags].empty?
+  node[:nginx][:configure_flags].push(*node[:nginx][:extra_configure_flags])
+end
 configure_flags = node[:nginx][:configure_flags].join(" ")
 node.set[:nginx][:daemon_disable] = true
 

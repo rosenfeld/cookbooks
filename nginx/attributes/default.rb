@@ -21,6 +21,7 @@ default[:nginx][:configure_flags] = [
   "--with-http_ssl_module",
   "--with-http_gzip_static_module"
 ]
+default[:nginx][:extra_configure_flags] = []
 
 default[:nginx][:gzip] = "on"
 default[:nginx][:gzip_http_version] = "1.0"
