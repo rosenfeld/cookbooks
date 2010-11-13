@@ -54,16 +54,21 @@ bash "compile_nginx_source" do
     cd nginx-#{nginx_version} && ./configure #{configure_flags}
     make && make install
   EOH
-  creates node[:nginx][:src_binary]
   only_if do
     any_missing = false
-    configure_flags.split(" ").each do |flag|
+    node[:nginx][:configure_flags].each do |flag|
       result = %x{
-        if ! #{nginx_install}/sbin/nginx -V 2>&1 | grep -q "#{flag}" ; then
-          echo missing
+        if #{nginx_install}/sbin/nginx -V 2>&1 | grep -q -- "#{flag}" ; then
+          echo found
         fi
       }
-      any_missing = true if result.chomp == "missing"
+      any_missing = true unless result.chomp == "found"
+    end
+    if any_missing
+      true
+    else
+      creates node[:nginx][:src_binary]
+      false
     end
   end
 end
