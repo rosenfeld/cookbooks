@@ -66,3 +66,7 @@ when "ubuntu"
   end
 end
 
+case node[:platform]
+when "redhat","centos","debian","ubuntu"
+  iptables_rule "port_ssh" if node[:openssh][:enable_iptables] == "yes"
+end
