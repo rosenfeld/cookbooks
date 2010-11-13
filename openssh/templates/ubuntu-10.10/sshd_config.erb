@@ -7,7 +7,7 @@ Port <%= port %>
 <% end -%>
 # Use these options to restrict which interfaces/protocols sshd will bind to
 #ListenAddress ::
-<% node[:openssh][:port].each do |address| -%>
+<% node[:openssh][:listen_address].each do |address| -%>
 ListenAddress <%= address %>
 <% end -%>
 Protocol 2
