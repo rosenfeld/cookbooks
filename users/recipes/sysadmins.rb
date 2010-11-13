@@ -18,7 +18,13 @@
 #
 sysadmin_group = Array.new
 
-search(:users, 'groups:sysadmin') do |u|
+if Chef::Config.solo
+  users = node[:users][:sysadmins]
+else
+  users = search(:users, 'groups:sysadmin')
+end
+
+users.each do |u|
   sysadmin_group << u['id']
 
   if node[:apache] and node[:apache][:allowed_openids]
