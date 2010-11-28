@@ -27,3 +27,9 @@ end
 %w{centos redhat fedora suse}.each do |os|
   supports os
 end
+
+attribute "php/modules",
+  :display_name => "List of installed php modules",
+  :description => "Sets the list of installed php modules. Currently supported modules are: [apc, curl, fileinfo, fpdf, gd, ldap, memcache, mysql, pgsql, sqlite3]",
+  :type => "array",
+  :default => [ "mysql", "sqlite3", "memcache", "gd", "pgsql" ]
