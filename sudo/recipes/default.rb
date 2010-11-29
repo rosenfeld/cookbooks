@@ -29,7 +29,7 @@ template "/etc/sudoers" do
   group "root"
   variables(
     :sudoers_groups => node[:authorization][:sudo][:groups], 
-    :sudoers_users => node[:authorization][:sudo][:users]
+    :sudoers_users => node[:authorization][:sudo][:users],
     :sudoers_extensions => node[:authorization][:sudo][:extensions]
   )
 end
