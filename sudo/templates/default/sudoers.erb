@@ -20,3 +20,10 @@ root    			ALL=(ALL) ALL
 # Members of the group '<%= group %>' may gain root privileges
 %<%= group %> ALL=(ALL) ALL
 <% end -%>
+
+<% @sudoers_extensions.each do |ext| -%>
+ 
+# sudoers extension entry:
+%<%= ext %>
+<% end -%>
+

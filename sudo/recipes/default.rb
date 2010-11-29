@@ -3,6 +3,7 @@
 # Recipe:: default
 #
 # Copyright 2008-2009, Opscode, Inc.
+# Copyright 2010, Fletcher Nichol
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,5 +30,6 @@ template "/etc/sudoers" do
   variables(
     :sudoers_groups => node[:authorization][:sudo][:groups], 
     :sudoers_users => node[:authorization][:sudo][:users]
+    :sudoers_extensions => node[:authorization][:sudo][:extensions]
   )
 end
