@@ -13,3 +13,9 @@
 [submodule "nginx_http_auth_pam"]
 	path = nginx_http_auth_pam
 	url = git://github.com/fnichol/chef-nginx_http_auth_pam.git
+[submodule "ubuntu_nvidia_gpu"]
+	path = ubuntu_nvidia_gpu
+	url = git://github.com/fnichol/chef-ubuntu_nvidia_gpu.git
+[submodule "xbmc"]
+	path = xbmc
+	url = git://github.com/fnichol/chef-xbmc.git
