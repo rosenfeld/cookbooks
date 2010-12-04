@@ -31,10 +31,3 @@ attribute "authorization/sudoers/groups",
   :description => "Groups who are allowed sudo ALL",
   :type => "array",
   :default => ""
-
-attribute "authorization/sudoers/extensions",
-  :display_name => "Sudo Extension Entries",
-  :description => "Additional sudoers line entries that are custom",
-  :type => "array",
-  :default => ""
-

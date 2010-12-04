@@ -3,7 +3,6 @@
 # Attribute File:: sudoers
 #
 # Copyright 2008-2009, Opscode, Inc.
-# Copyright 2010, Fletcher Nichol
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,4 +19,3 @@
 
 default[:authorization][:sudo][:groups] = Array.new 
 default[:authorization][:sudo][:users] = Array.new
-default[:authorization][:sudo][:extensions] = Array.new
