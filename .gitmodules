@@ -19,3 +19,6 @@
 [submodule "xbmc"]
 	path = xbmc
 	url = git://github.com/fnichol/chef-xbmc.git
+[submodule "vagrant_extras"]
+	path = vagrant_extras
+	url = git://github.com/fnichol/chef-vagrant_extras.git
