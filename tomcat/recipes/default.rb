@@ -39,8 +39,7 @@ tomcat_pkgs.each do |pkg|
   end
 end
 
-service "tomcat" do
-  service_name "tomcat6"
+service "tomcat6" do
   case node["platform"]
   when "centos","redhat","fedora"
     supports :restart => true, :status => true
