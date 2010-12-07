@@ -77,11 +77,11 @@ when "ubuntu", "debian"
 
   package "daemon"
   # These are both dependencies of the hudson deb package
+  package "jamvm"
   package "openjdk-6-jre"
 
   if node.platform == "debian"
     package "psmisc"
-    package "jamvm"
   end
 
   remote_file "#{tmp}/hudson-ci.org.key" do
