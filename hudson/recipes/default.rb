@@ -70,28 +70,47 @@ case node.platform
 when "ubuntu", "debian"
   # See http://hudson-ci.org/debian/
 
-  remote = "#{node[:hudson][:mirror]}/latest/debian/hudson.deb"
-  package_provider = Chef::Provider::Package::Dpkg
+  case node.platform
+  when "debian"
+    remote = "#{node[:hudson][:mirror]}/latest/debian/hudson.deb"
+    package_provider = Chef::Provider::Package::Dpkg
+
+    package "daemon"
+    # These are both dependencies of the hudson deb package
+    package "jamvm"
+    package "openjdk-6-jre"
+
+    package "psmisc"
+
+    remote_file "#{tmp}/hudson-ci.org.key" do
+      source "#{node[:hudson][:mirror]}/debian/hudson-ci.org.key"
+    end
+
+    execute "add-hudson-key" do
+      command "apt-key add #{tmp}/hudson-ci.org.key"
+      action :nothing
+    end
+
+  when "ubuntu"
+    package_provider = Chef::Provider::Package::Apt
+    package "curl"
+    key_url = "http://pkg.hudson-labs.org/debian/hudson-labs.org.key"
+
+    include_recipe "apt"
+    include_recipe "java"
+
+    cookbook_file "/etc/apt/sources.list.d/hudson.list"
+
+    execute "add-hudson-key" do
+      command "curl #{key_url} | apt-key add -"
+      action :nothing
+      notifies :run, "execute[apt-get update]", :immediately
+    end
+  end
+
   pid_file = "/var/run/hudson/hudson.pid"
   install_starts_service = true
 
-  package "daemon"
-  # These are both dependencies of the hudson deb package
-  package "jamvm"
-  package "openjdk-6-jre"
-
-  if node.platform == "debian"
-    package "psmisc"
-  end
-
-  remote_file "#{tmp}/hudson-ci.org.key" do
-    source "#{node[:hudson][:mirror]}/debian/hudson-ci.org.key"
-  end
-
-  execute "add-hudson-key" do
-    command "apt-key add #{tmp}/hudson-ci.org.key"
-    action :nothing
-  end
 
 when "centos", "redhat"
   #see http://hudson-ci.org/redhat/
@@ -132,39 +151,53 @@ service "hudson" do
   action :nothing
 end
 
-local = File.join(tmp, File.basename(remote))
+if node.platform == "ubuntu"
+  execute "setup-hudson" do
+    command "echo w00t"
+    notifies :stop, "service[hudson]", :immediately
+    notifies :create, "ruby_block[netstat]", :immediately #wait a moment for the port to be released
+    notifies :run, "execute[add-hudson-key]", :immediately
+    notifies :install, "package[hudson]", :immediately
+    unless install_starts_service
+      notifies :start, "service[hudson]", :immediately
+    end
+    creates "/usr/share/hudson/hudson.war"
+  end
+else
+  local = File.join(tmp, File.basename(remote))
 
-remote_file local do
-  source remote
-  backup false
-  notifies :stop, "service[hudson]", :immediately
-  notifies :create, "ruby_block[netstat]", :immediately #wait a moment for the port to be released
-  notifies :run, "execute[add-hudson-key]", :immediately
-  notifies :install, "package[hudson]", :immediately
-  unless install_starts_service
-    notifies :start, "service[hudson]", :immediately
+  remote_file local do
+    source remote
+    backup false
+    notifies :stop, "service[hudson]", :immediately
+    notifies :create, "ruby_block[netstat]", :immediately #wait a moment for the port to be released
+    notifies :run, "execute[add-hudson-key]", :immediately
+    notifies :install, "package[hudson]", :immediately
+    unless install_starts_service
+      notifies :start, "service[hudson]", :immediately
+    end
+    if node[:hudson][:server][:use_head] #XXX remove when CHEF-1848 is merged
+      action :nothing
+    end
   end
-  if node[:hudson][:server][:use_head] #XXX remove when CHEF-1848 is merged
-    action :nothing
-  end
-end
 
-http_request "HEAD #{remote}" do
-  only_if { node[:hudson][:server][:use_head] } #XXX remove when CHEF-1848 is merged
-  message ""
-  url remote
-  action :head
-  if File.exists?(local)
-    headers "If-Modified-Since" => File.mtime(local).httpdate
+  http_request "HEAD #{remote}" do
+    only_if { node[:hudson][:server][:use_head] } #XXX remove when CHEF-1848 is merged
+    message ""
+    url remote
+    action :head
+    if File.exists?(local)
+      headers "If-Modified-Since" => File.mtime(local).httpdate
+    end
+    notifies :create, "remote_file[#{local}]", :immediately
   end
-  notifies :create, "remote_file[#{local}]", :immediately
 end
 
 #this is defined after http_request/remote_file because the package
 #providers will throw an exception if `source' doesn't exist
 package "hudson" do
   provider package_provider
-  source local
+  source local if node.platform != "ubuntu"
   action :nothing
 end
 
