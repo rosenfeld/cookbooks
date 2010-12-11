@@ -22,3 +22,6 @@
 [submodule "vagrant_extras"]
 	path = vagrant_extras
 	url = git://github.com/fnichol/chef-vagrant_extras.git
+[submodule "openoffice"]
+	path = openoffice
+	url = git://github.com/fnichol/chef-openoffice.git
