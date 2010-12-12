@@ -18,7 +18,7 @@ end
 attribute "nginx/enable_iptables",
   :display_name => "Specifies whether iptables rules are enabled",
   :description => %{Specifies whether iptables rules are enabled. The argument must be “yes” or “no”.},
-  :default => "no"
+  :default => "yes"
 
 attribute "nginx/iptables_ports",
   :display_name => "Lists ports to be exposed through iptables",
