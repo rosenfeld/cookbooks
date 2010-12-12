@@ -161,6 +161,7 @@ when "redhat","centos","debian","ubuntu"
       enable true
     else
       enable false
+    end
   end
 end
 
