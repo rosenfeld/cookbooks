@@ -25,3 +25,6 @@
 [submodule "openoffice"]
 	path = openoffice
 	url = git://github.com/fnichol/chef-openoffice.git
+[submodule "webapp"]
+	path = webapp
+	url = git://github.com/fnichol/chef-webapp.git
