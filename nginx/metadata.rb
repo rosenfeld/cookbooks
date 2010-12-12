@@ -15,6 +15,17 @@ end
   depends cb
 end
 
+attribute "nginx/enable_iptables",
+  :display_name => "Specifies whether iptables rules are enabled",
+  :description => %{Specifies whether iptables rules are enabled. The argument must be “yes” or “no”.},
+  :default => "no"
+
+attribute "nginx/iptables_ports",
+  :display_name => "Lists ports to be exposed through iptables",
+  :description => %{Lists the ports which get exposed through the firewall.},
+  :type => "array",
+  :default => [80]
+
 attribute "nginx/dir",
   :display_name => "Nginx Directory",
   :description => "Location of nginx configuration files",

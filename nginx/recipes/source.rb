@@ -153,3 +153,14 @@ cookbook_file "#{node[:nginx][:dir]}/mime.types" do
   mode "0644"
   notifies :restart, resources(:service => "nginx"), :immediately
 end
+
+case node[:platform]
+when "redhat","centos","debian","ubuntu"
+  iptables_rule "port_nginx" do
+    if node[:nginx][:enable_iptables] == "yes"
+      enable true
+    else
+      enable false
+  end
+end
+
