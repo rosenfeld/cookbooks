@@ -50,10 +50,17 @@ remote_file "/tmp/nginx-#{nginx_version}.tar.gz" do
   action :create_if_missing
 end
 
-bash "compile_nginx_source" do
+bash "extract_nginx_source" do
   cwd "/tmp"
   code <<-EOH
     tar zxf nginx-#{nginx_version}.tar.gz
+  EOH
+  creates "/tmp/nginx-#{nginx_version}"
+end
+
+bash "compile_nginx_source" do
+  cwd "/tmp"
+  code <<-EOH
     cd nginx-#{nginx_version} && ./configure #{configure_flags}
     make && make install
   EOH
