@@ -53,7 +53,7 @@ define :user_account, :uid => nil, :gid => nil,
 
   directory home_dir do
     owner params[:name]
-    if create_group
+    if params[:create_group]
       group params[:name]
     else
       group params[:gid] || params[:name]
@@ -63,7 +63,7 @@ define :user_account, :uid => nil, :gid => nil,
 
   directory "#{home_dir}/.ssh" do
     owner params[:name]
-    if create_group
+    if params[:create_group]
       group params[:name]
     else
       group params[:gid] || params[:name]
@@ -74,7 +74,7 @@ define :user_account, :uid => nil, :gid => nil,
   template "#{home_dir}/.ssh/authorized_keys" do
     source "authorized_keys.erb"
     owner params[:name]
-    if create_group
+    if params[:create_group]
       group params[:name]
     else
       group params[:gid] || params[:name]
