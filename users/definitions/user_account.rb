@@ -72,6 +72,7 @@ define :user_account, :uid => nil, :gid => nil,
   end
 
   template "#{home_dir}/.ssh/authorized_keys" do
+    cookbook "users"
     source "authorized_keys.erb"
     owner params[:name]
     if params[:create_group]
