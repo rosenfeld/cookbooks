@@ -29,6 +29,7 @@ default[:mysql][:repl_user_status] = "disabled"
 default[:mysql][:repl_user] = "repl"
 default[:mysql][:repl_user_ssl_status] = "disabled"
 default[:mysql][:repl_user_ssl_require_issuer] = ""
+default[:mysql][:remote_root_user] = "disabled"
 
 if attribute?(:ec2)
   default[:mysql][:ec2_path]    = "/mnt/mysql"

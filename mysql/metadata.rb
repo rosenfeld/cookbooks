@@ -25,6 +25,11 @@ attribute "mysql/server_root_password",
   :description => "Randomly generated password for the mysqld root user",
   :default => "randomly generated"
 
+attribute "mysql/remote_root_user",
+  :display_name => "Can the root user connect from any host?",
+  :description => "Whether or not the root user connect from any host. The possible values are 'enabled' and 'disabled'.",
+  :default => "disabled"
+
 attribute "mysql/repl_user_status",
   :display_name => "Is the repl user created?",
   :description => "Whether or not the replication user is created. The possible values are 'enabled' and 'disabled'.",
