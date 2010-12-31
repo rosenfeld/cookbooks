@@ -28,3 +28,6 @@
 [submodule "webapp"]
 	path = webapp
 	url = git://github.com/fnichol/chef-webapp.git
+[submodule "mythtv"]
+	path = mythtv
+	url = git://github.com/fnichol/chef-mythtv.git
