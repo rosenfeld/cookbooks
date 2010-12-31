@@ -68,6 +68,8 @@ end
 
 case node[:platform]
 when "redhat","centos","debian","ubuntu"
+  include_recipe "iptables"
+
   iptables_rule "port_ssh" do
     if node[:openssh][:enable_iptables] == "yes"
       enable true
