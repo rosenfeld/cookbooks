@@ -23,6 +23,7 @@
 #
 
 include_recipe "build-essential"
+include_recipe "iptables"
 
 unless platform?("centos","redhat","fedora")
   include_recipe "runit"
@@ -164,10 +165,10 @@ end
 case node[:platform]
 when "redhat","centos","debian","ubuntu"
   iptables_rule "port_nginx" do
-    if node[:nginx][:enable_iptables] == "yes"
-      enable true
-    else
+    if node[:nginx][:iptables_allow] == "disable"
       enable false
+    else
+      enable true
     end
   end
 end

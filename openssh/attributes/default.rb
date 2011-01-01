@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-default[:openssh][:enable_iptables]     = "no"
+default[:openssh][:iptables_allow]      = "enable"
 
 default[:openssh][:port]                = [ "22" ]
 default[:openssh][:listen_address]      = [ "0.0.0.0" ]

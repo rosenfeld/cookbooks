@@ -44,5 +44,5 @@ default[:nginx][:worker_processes]   = cpu[:total]
 default[:nginx][:worker_connections] = 2048
 default[:nginx][:server_names_hash_bucket_size] = 64
 
-default[:nginx][:enable_iptables] = "yes"
+default[:nginx][:iptables_allow] = "enable"
 default[:nginx][:iptables_ports] = [80]

@@ -14,10 +14,10 @@ end
   depends cb
 end
 
-attribute "openssh/enable_iptables",
-  :display_name => "Specifies whether iptables rules are enabled",
-  :description => %{Specifies whether iptables rules are enabled. The argument must be “yes” or “no”.},
-  :default => "no"
+attribute "openssh/iptables_allow",
+  :display_name => "Specifies whether iptables allow rules are enabled",
+  :description => %{Specifies whether iptables allow rules are enabled. The argument must be “enable” or “disable”.},
+  :default => "enable"
 
 attribute "openssh/port",
   :display_name => "Specifies the port number that sshd listens on",

@@ -15,10 +15,10 @@ end
   depends cb
 end
 
-attribute "nginx/enable_iptables",
-  :display_name => "Specifies whether iptables rules are enabled",
-  :description => %{Specifies whether iptables rules are enabled. The argument must be “yes” or “no”.},
-  :default => "yes"
+attribute "nginx/iptables_allow",
+  :display_name => "Specifies whether iptables allow rules are enabled",
+  :description => %{Specifies whether iptables allow rules are enabled. The argument must be “disable” or “enable”.},
+  :default => "enable"
 
 attribute "nginx/iptables_ports",
   :display_name => "Lists ports to be exposed through iptables",

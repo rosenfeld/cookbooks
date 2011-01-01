@@ -15,10 +15,10 @@ end
 
 depends "openssl"
 
-attribute "mysql/enable_iptables",
-  :display_name => "Specifies whether iptables rules are enabled",
-  :description => %{Specifies whether iptables rules are enabled. The argument must be “yes” or “no”.},
-  :default => "no"
+attribute "mysql/iptables_allow",
+  :display_name => "Specifies whether iptables allow rules are enabled",
+  :description => %{Specifies whether iptables allow rules are enabled. The argument must be “disable” or “enable”.},
+  :default => "disable"
 
 attribute "mysql/server_root_password",
   :display_name => "MySQL Server Root Password",

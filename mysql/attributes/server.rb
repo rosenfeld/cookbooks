@@ -61,4 +61,4 @@ default[:mysql][:tunable][:long_query_time]      = 2
 
 default[:mysql][:tunable][:innodb_buffer_pool_size] = "256M"
 
-default[:mysql][:enable_iptables] = "no"
+default[:mysql][:iptables_allow] = "disable"
