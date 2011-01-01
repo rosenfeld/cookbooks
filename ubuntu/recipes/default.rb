@@ -21,7 +21,15 @@ include_recipe "apt"
 
 template "/etc/apt/sources.list" do
   mode 0644
-  variables :code_name => node[:lsb][:codename]
   notifies :run, resources(:execute => "apt-get update"), :immediately
   source "sources.list.erb"
+  variables(
+    :code_name    => node[:lsb][:codename],
+    :main         => node[:ubuntu][:sources][:main],
+    :main_src     => node[:ubuntu][:sources][:main_src],
+    :updates      => node[:ubuntu][:sources][:updates],
+    :updates_src  => node[:ubuntu][:sources][:updates_src],
+    :security     => node[:ubuntu][:sources][:security],
+    :security_src => node[:ubuntu][:sources][:security_src]
+  )
 end
