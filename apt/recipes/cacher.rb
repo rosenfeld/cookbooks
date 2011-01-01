@@ -40,3 +40,5 @@ cookbook_file "/etc/default/apt-cacher" do
   mode 0644
   notifies :restart, resources(:service => "apt-cacher")
 end
+
+iptables_rule "port_apt_cacher"
