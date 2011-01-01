@@ -3,6 +3,7 @@
 # Definition:: iptables_rule
 #
 # Copyright 2008-2009, Opscode, Inc.
+# Copyright 2010, Fletcher Nichol
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,16 +20,21 @@
 
 define :iptables_rule, :enable => true, :source => nil, :variables => {} do
   template_source = params[:source] ? params[:source] : "#{params[:name]}.erb"
+
+  if node[:iptables][:status] == "disable"
+    params[:enable] = false
+  end
   
   template "/etc/iptables.d/#{params[:name]}" do
     source template_source
     mode 0644
     variables params[:variables]
     backup false
-    notifies :run, resources(:execute => "rebuild-iptables")
     if params[:enable]
+      notifies :run, "execute[rebuild-iptables]"
       action :create
     else
+      notifies :run, "execute[disable-iptables]"
       action :delete
     end
   end
