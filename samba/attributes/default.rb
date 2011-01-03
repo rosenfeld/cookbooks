@@ -39,3 +39,7 @@ else
   set["samba"]["config"] = "/etc/samba/smb.conf"
   set["samba"]["log_dir"] = "/var/log/samba/%m.log"
 end
+
+if platform?("redhat","centos","debian","ubuntu")
+  default["samba"]["iptables_allow"] = "disable"
+end

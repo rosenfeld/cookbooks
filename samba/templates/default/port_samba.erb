@@ -1,0 +1,11 @@
+# samba (nmbd)
+-A FWR -p tcp -m tcp --dport 137 -j ACCEPT
+-A FWR -p udp -m udp --dport 137 -j ACCEPT
+-A FWR -p tcp -m tcp --dport 138 -j ACCEPT
+-A FWR -p udp -m udp --dport 138 -j ACCEPT
+
+# samba (smbd)
+-A FWR -p tcp -m tcp --dport 139 -j ACCEPT
+-A FWR -p udp -m udp --dport 139 -j ACCEPT
+-A FWR -p tcp -m tcp --dport 445 -j ACCEPT
+-A FWR -p udp -m udp --dport 445 -j ACCEPT

@@ -17,8 +17,21 @@
 # limitations under the License.
 #
 
+if platform?("redhat","centos","debian","ubuntu")
+  include_recipe "iptables"
+end
+
 users = nil
-shares = data_bag_item("samba", "shares")
+
+if Chef::Config.solo
+  if node[:samba]["shares"].nil?
+    shares = { "shares" => Hash.new }
+  else
+    shares = node[:samba]
+  end
+else
+  shares = data_bag_item("samba", "shares")
+end
 
 shares["shares"].each do |k,v|
   if v.has_key?("path")
@@ -29,7 +42,9 @@ shares["shares"].each do |k,v|
 end
 
 unless node["samba"]["passdb_backend"] =~ /^ldapsam/
-  users = search("users", "*:*")
+  unless Chef::Config.solo
+    users = search("users", "*:*")
+  end
 end
 
 package value_for_platform(
@@ -48,7 +63,14 @@ svcs = value_for_platform(
 svcs.each do |s|
   service s do
     pattern "smbd|nmbd" if node["platform"] =~ /^arch$/
-    action [:enable, :start]
+
+    if (platform?("ubuntu") && node.platform_version.to_f >= 10.10)
+      provider Chef::Provider::Service::Upstart
+      supports :status => true, :restart => true, :reload => true
+      action :nothing
+    else
+      action [:enable, :start]
+    end
   end
 end
 
@@ -66,6 +88,16 @@ if users
     samba_user u["id"] do
       password u["smbpasswd"]
       action [:create, :enable]
+    end
+  end
+end
+
+if platform?("redhat","centos","debian","ubuntu")
+  iptables_rule "port_samba" do
+    if node[:samba][:iptables_allow] == "disable"
+      enable false
+    else
+      enable true
     end
   end
 end
