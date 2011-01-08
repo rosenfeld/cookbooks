@@ -37,3 +37,6 @@
 [submodule "transmission"]
 	path = transmission
 	url = git://github.com/fnichol/chef-transmission.git
+[submodule "swftools"]
+	path = swftools
+	url = git://github.com/fnichol/chef-swftools.git
