@@ -40,3 +40,6 @@
 [submodule "swftools"]
 	path = swftools
 	url = git://github.com/fnichol/chef-swftools.git
+[submodule "gitorious"]
+	path = gitorious
+	url = git://github.com/fnichol/chef-gitorious.git
