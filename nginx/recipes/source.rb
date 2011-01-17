@@ -46,22 +46,36 @@ end
 configure_flags = node[:nginx][:configure_flags].join(" ")
 node.set[:nginx][:daemon_disable] = true
 
-remote_file "/tmp/nginx-#{nginx_version}.tar.gz" do
-  source "http://sysoev.ru/nginx/nginx-#{nginx_version}.tar.gz"
-  action :create_if_missing
+archive_cache = "/var/chef/cache/downloads/nginx"
+
+directory archive_cache do
+  owner     "root"
+  group     "root"
+  mode      "0755"
+  recursive true
+end
+
+remote_file "#{archive_cache}/nginx-#{nginx_version}.tar.gz" do
+  source  "http://sysoev.ru/nginx/nginx-#{nginx_version}.tar.gz"
+  mode    "0644"
+  action  :create_if_missing
 end
 
 bash "extract_nginx_source" do
-  cwd "/tmp"
-  code <<-EOH
+  user    "root"
+  group   "root"
+  cwd     archive_cache
+  code    <<-EOH
     tar zxf nginx-#{nginx_version}.tar.gz
   EOH
-  creates "/tmp/nginx-#{nginx_version}"
+  creates "#{archive_cache}/nginx-#{nginx_version}"
 end
 
 bash "compile_nginx_source" do
-  cwd "/tmp"
-  code <<-EOH
+  user    "root"
+  group   "root"
+  cwd     archive_cache
+  code    <<-EOH
     cd nginx-#{nginx_version} && ./configure #{configure_flags}
     make && make install
   EOH
@@ -85,15 +99,15 @@ bash "compile_nginx_source" do
 end
 
 directory node[:nginx][:log_dir] do
-  mode 0755
-  owner node[:nginx][:user]
-  action :create
+  mode    "0755"
+  owner   node[:nginx][:user]
+  action  :create
 end
 
 directory node[:nginx][:dir] do
   owner "root"
   group "root"
-  mode "0755"
+  mode  "0755"
 end
 
 unless platform?("centos","redhat","fedora")
