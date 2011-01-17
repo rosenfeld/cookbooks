@@ -50,6 +50,12 @@ service "tomcat" do
   action [:enable, :start]
 end
 
+if node[:tomcat][:restart_timing]
+  notification_timing = node[:tomcat][:restart_timing].to_sym
+else
+  notification_timing = :delayed
+end
+
 case node["platform"]
 when "centos","redhat","fedora"
   template "/etc/sysconfig/tomcat6" do
@@ -57,7 +63,7 @@ when "centos","redhat","fedora"
     owner "root"
     group "root"
     mode "0644"
-    notifies :restart, resources(:service => "tomcat")
+    notifies :restart, resources(:service => "tomcat"), notification_timing
   end
 else  
   template "/etc/default/tomcat6" do
@@ -65,7 +71,7 @@ else
     owner "root"
     group "root"
     mode "0644"
-    notifies :restart, resources(:service => "tomcat")
+    notifies :restart, resources(:service => "tomcat"), notification_timing
   end
 end
 
@@ -74,5 +80,15 @@ template "/etc/tomcat6/server.xml" do
   owner "root"
   group "root"
   mode "0644"
-  notifies :restart, resources(:service => "tomcat")
+  notifies :restart, resources(:service => "tomcat"), notification_timing
+end
+
+if platform?("redhat","centos","debian","ubuntu")
+  iptables_rule "port_tomcat" do
+    if node[:tomcat][:iptables_allow] == "disable"
+      enable false
+    else
+      enable true
+    end
+  end
 end
