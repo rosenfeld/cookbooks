@@ -77,6 +77,20 @@ template value_for_platform([ "centos", "redhat", "suse" , "fedora" ] => {"defau
   notifies :restart, resources(:service => "mysql"), :immediately
 end
 
+if %w{ ubuntu debian }.include?(node.platform)
+  template "/etc/mysql/conf.d/mysqld_default_charset.cnf" do
+    source "mysqld_default_charset.cnf.erb"
+    owner "root"
+    group "root"
+    mode "0644"
+    variables(
+      :character_set  => node[:mysql][:server_character_set],
+      :collation      => node[:mysql][:server_collation]
+    )
+    notifies :restart, resources(:service => "mysql"), :immediately
+  end
+end
+
 unless Chef::Config[:solo]
   ruby_block "save node data" do
     block do

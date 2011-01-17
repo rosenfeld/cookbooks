@@ -61,4 +61,7 @@ default[:mysql][:tunable][:long_query_time]      = 2
 
 default[:mysql][:tunable][:innodb_buffer_pool_size] = "256M"
 
+default[:mysql][:server_character_set]  = "utf8"
+default[:mysql][:server_collation]      = "utf8_general_ci"
+
 default[:mysql][:iptables_allow] = "disable"
