@@ -46,7 +46,7 @@ end
 configure_flags = node[:nginx][:configure_flags].join(" ")
 node.set[:nginx][:daemon_disable] = true
 
-archive_cache = "/var/chef/cache/downloads/nginx"
+archive_cache = node[:nginx][:archive_cache]
 
 directory archive_cache do
   owner     "root"

@@ -2,6 +2,8 @@ default[:nginx][:version]      = "0.8.53"
 default[:nginx][:install_path] = "/opt/nginx-#{nginx[:version]}"
 default[:nginx][:src_binary]   = "#{nginx[:install_path]}/sbin/nginx"
 
+default[:nginx][:archive_cache] = "/var/chef/cache/downloads/nginx"
+
 case platform
 when "debian","ubuntu"
   set[:nginx][:dir]     = "/etc/nginx"
