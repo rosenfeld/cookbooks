@@ -7,8 +7,7 @@
 # Author:: Fletcher Nichol (<fnichol@nichol.ca>)
 #
 # Copyright 2009-2011, Opscode, Inc.
-# Copyright 2009, Opscode, Inc.
-# Copyright 2010, Fletcher Nichol
+# Copyright 2010-2011, Fletcher Nichol
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -111,11 +110,45 @@ directory node[:nginx][:dir] do
   mode  "0755"
 end
 
+%w{ sites-available sites-enabled conf.d }.each do |dir|
+  directory "#{node[:nginx][:dir]}/#{dir}" do
+    owner "root"
+    group "root"
+    mode "0755"
+  end
+end
+
+%w{nxensite nxdissite}.each do |nxscript|
+  template "/usr/sbin/#{nxscript}" do
+    source "#{nxscript}.erb"
+    mode "0755"
+    owner "root"
+    group "root"
+  end
+end
+
+template "nginx.conf" do
+  path "#{node[:nginx][:dir]}/nginx.conf"
+  source "nginx.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+end
+
+cookbook_file "#{node[:nginx][:dir]}/mime.types" do
+  source "mime.types"
+  owner "root"
+  group "root"
+  mode "0644"
+end
+
 unless platform?("centos","redhat","fedora")
   runit_service "nginx"
 
   service "nginx" do
     subscribes :restart, resources(:bash => "compile_nginx_source")
+    subscribes :restart, resources(:template => "nginx.conf")
+    subscribes :restart, resources(:cookbook_file => "#{node[:nginx][:dir]}/mime.types")
   end
 else
   #install init db script
@@ -140,41 +173,6 @@ else
     action :enable
     subscribes :restart, resources(:bash => "compile_nginx_source")
   end
-end
-
-
-%w{ sites-available sites-enabled conf.d }.each do |dir|
-  directory "#{node[:nginx][:dir]}/#{dir}" do
-    owner "root"
-    group "root"
-    mode "0755"
-  end
-end
-
-%w{nxensite nxdissite}.each do |nxscript|
-  template "/usr/sbin/#{nxscript}" do
-    source "#{nxscript}.erb"
-    mode "0755"
-    owner "root"
-    group "root"
-  end
-end
-
-template "nginx.conf" do
-  path "#{node[:nginx][:dir]}/nginx.conf"
-  source "nginx.conf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  notifies :restart, resources(:service => "nginx"), :immediately
-end
-
-cookbook_file "#{node[:nginx][:dir]}/mime.types" do
-  source "mime.types"
-  owner "root"
-  group "root"
-  mode "0644"
-  notifies :restart, resources(:service => "nginx"), :immediately
 end
 
 case node[:platform]
