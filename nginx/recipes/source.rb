@@ -6,6 +6,7 @@
 # Author:: Joshua Timberman (<joshua@opscode.com>)
 # Author:: Fletcher Nichol (<fnichol@nichol.ca>)
 #
+# Copyright 2009-2011, Opscode, Inc.
 # Copyright 2009, Opscode, Inc.
 # Copyright 2010, Fletcher Nichol
 #
