@@ -31,11 +31,10 @@ define :iptables_rule, :enable => true, :source => nil, :variables => {} do
     variables params[:variables]
     backup false
     if params[:enable]
-      notifies :run, "execute[rebuild-iptables]"
       action :create
     else
-      notifies :run, "execute[disable-iptables]"
       action :delete
     end
+    notifies :run, "execute[rebuild-iptables]"
   end
 end

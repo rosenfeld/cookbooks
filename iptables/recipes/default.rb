@@ -37,6 +37,7 @@ if node[:iptables][:status] == "disable"
   file "/etc/iptables/general" do
     action :delete
   end
+  notifies :run, "execute[disable-iptables]"
 end
 
 cookbook_file "/usr/sbin/rebuild-iptables" do
