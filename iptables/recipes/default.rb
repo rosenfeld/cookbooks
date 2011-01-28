@@ -33,6 +33,10 @@ directory "/etc/iptables.d" do
   action :create
 end
 
+directory "/etc/iptables" do
+  action :create
+end
+
 file "/etc/iptables/general" do
   if node[:iptables][:status] == "disable"
     action    :delete
