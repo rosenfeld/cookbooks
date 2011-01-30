@@ -1,8 +1,8 @@
 #
-# Author:: Benjamin Black (<b@b3k.us>) and Sean Cribbs (<sean@basho.com>)
-# Cookbook Name:: riak
+# Cookbook Name:: djbdns
+# Provider:: rr
 #
-# Copyright (c) 2010 Basho Technologies, Inc.
+# Copyright 2011, Joshua Timberman <joshua@housepub.org>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,9 +17,16 @@
 # limitations under the License.
 #
 
-default.riak.sasl.sasl_error_logger.file = "/var/log/riak/sasl-error.log"
-default.riak.sasl.errlog_type = :error
-node.riak.sasl.errlog_type = (node.riak.sasl.errlog_type).to_s.to_sym
-default.riak.sasl.error_logger_mf_dir = "/var/log/riak/sasl"
-default.riak.sasl.error_logger_mf_maxbytes = 10485760
-default.riak.sasl.error_logger_mf_maxfiles = 5
+action :add do
+  type = new_resource.type
+  fqdn = new_resource.fqdn
+  ip = new_resource.ip
+  cwd = new_resource.cwd ? new_resource.cwd : "#{node[:djbdns][:tinydns_internal_dir]}/root"
+
+  execute "./add-#{type} #{fqdn} #{ip}" do
+    cwd cwd
+    ignore_failure true
+    not_if "grep '^[\.\+=]#{fqdn}:#{ip}' #{cwd}/data"
+  end
+  new_resource.updated_by_last_action(true)
+end

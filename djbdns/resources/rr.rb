@@ -1,8 +1,8 @@
 #
-# Author:: Benjamin Black (<b@b3k.us>) and Sean Cribbs (<sean@basho.com>)
-# Cookbook Name:: riak
+# Cookbook Name:: djbdns
+# Resource:: rr
 #
-# Copyright (c) 2010 Basho Technologies, Inc.
+# Copyright 2011, Joshua Timberman <joshua@housepub.org>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,9 +17,12 @@
 # limitations under the License.
 #
 
-default.riak.sasl.sasl_error_logger.file = "/var/log/riak/sasl-error.log"
-default.riak.sasl.errlog_type = :error
-node.riak.sasl.errlog_type = (node.riak.sasl.errlog_type).to_s.to_sym
-default.riak.sasl.error_logger_mf_dir = "/var/log/riak/sasl"
-default.riak.sasl.error_logger_mf_maxbytes = 10485760
-default.riak.sasl.error_logger_mf_maxfiles = 5
+# calls tinydns-edit: usage: tinydns-edit data data.new add [ns|childns|host|alias|mx] domain a.b.c.d
+# e.g., tinydns-edit data data.new add host tester2.int.housepub.org 10.13.37.79
+
+actions :add
+
+attribute :fqdn,     :kind_of => String, :name_attribute => true
+attribute :ip,       :kind_of => String, :required => true
+attribute :type,     :kind_of => String, :default => "host"
+attribute :cwd,      :kind_of => String
