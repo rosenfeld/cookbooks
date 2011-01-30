@@ -143,8 +143,8 @@ when "redhat","centos","debian","ubuntu"
     if node[:mysql][:iptables_allow] == "disable"
       enable false
     else
-    end
       enable true
+    end
   end
 end
 
