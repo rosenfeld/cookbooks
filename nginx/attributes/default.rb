@@ -4,6 +4,8 @@ default[:nginx][:src_binary]   = "#{nginx[:install_path]}/sbin/nginx"
 
 default[:nginx][:archive_cache] = "/var/chef/cache/downloads/nginx"
 
+default[:nginx][:tar_url] = "http://sysoev.ru/nginx/nginx-#{node[:nginx][:version]}.tar.gz"
+
 case platform
 when "debian","ubuntu"
   set[:nginx][:dir]     = "/etc/nginx"

@@ -47,6 +47,7 @@ configure_flags = node[:nginx][:configure_flags].join(" ")
 node.set[:nginx][:daemon_disable] = true
 
 archive_cache = node[:nginx][:archive_cache]
+tar_url = node[:nginx][:tar_url]
 
 directory archive_cache do
   owner     "root"
@@ -56,7 +57,7 @@ directory archive_cache do
 end
 
 remote_file "#{archive_cache}/nginx-#{nginx_version}.tar.gz" do
-  source  "http://sysoev.ru/nginx/nginx-#{nginx_version}.tar.gz"
+  source  tar_url
   mode    "0644"
   action  :create_if_missing
 end
