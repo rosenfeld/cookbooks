@@ -17,7 +17,7 @@
 # limitations under the License.
 
 case node[:platform]
-when "debian", "ubuntu"
+when "debian", "ubuntu", "suse"
   package "git-core"
 else 
   package "git"
