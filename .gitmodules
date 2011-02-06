@@ -43,3 +43,6 @@
 [submodule "gitorious"]
 	path = gitorious
 	url = git://github.com/fnichol/chef-gitorious.git
+[submodule "jenkins"]
+	path = jenkins
+	url = git://github.com/fnichol/chef-jenkins.git
