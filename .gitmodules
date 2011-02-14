@@ -46,3 +46,6 @@
 [submodule "jenkins"]
 	path = jenkins
 	url = git://github.com/fnichol/chef-jenkins.git
+[submodule "homebrew"]
+	path = homebrew
+	url = git://github.com/mathie/chef-homebrew.git
