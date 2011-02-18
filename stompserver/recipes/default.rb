@@ -40,7 +40,11 @@ include_recipe "runit"
 
 rvm_gem "stompserver" do
   ruby_string "default@stompserver"
-  action      :install
+end
+
+rvm_wrapper "sys" do
+  ruby_string "default@stompserver"
+  binary      "stompserver"
 end
 
 runit_service "stompserver"
