@@ -6,7 +6,7 @@ version           "0.7.1"
 
 recipe "stompserver", "Installs and configures stompserver as a runit service"
 
-%w{ packages runit }.each do |cb|
+%w{ rvm packages runit }.each do |cb|
   depends cb
 end
 

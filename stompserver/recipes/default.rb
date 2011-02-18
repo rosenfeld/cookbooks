@@ -18,6 +18,7 @@
 # limitations under the License.
 
 include_recipe "packages"
+include_recipe "rvm"
 
 if platform?("centos","redhat","debian","ubuntu") and dist_only?
   package value_for_platform(
@@ -37,8 +38,9 @@ end
 
 include_recipe "runit"
 
-gem_package "stompserver" do
-  action :install
+rvm_gem "stompserver" do
+  ruby_string "default@stompserver"
+  action      :install
 end
 
 runit_service "stompserver"
