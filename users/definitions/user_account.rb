@@ -71,17 +71,19 @@ define :user_account, :uid => nil, :gid => nil,
     mode "0700"
   end
 
-  template "#{home_dir}/.ssh/authorized_keys" do
-    cookbook "users"
-    source "authorized_keys.erb"
-    owner params[:name]
-    if params[:create_group]
-      group params[:name]
-    else
-      group params[:gid] || params[:name]
+  unless params[:ssh_keys].empty?
+    template "#{home_dir}/.ssh/authorized_keys" do
+      cookbook "users"
+      source "authorized_keys.erb"
+      owner params[:name]
+      if params[:create_group]
+        group params[:name]
+      else
+        group params[:gid] || params[:name]
+      end
+      mode "0600"
+      variables :ssh_keys => params[:ssh_keys]
     end
-    mode "0600"
-    variables :ssh_keys => params[:ssh_keys]
   end
 end
 
