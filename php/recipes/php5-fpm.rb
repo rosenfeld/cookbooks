@@ -21,17 +21,21 @@
 
 MODULES = %w{apt curl fileinfo fpdf gd ldap memcache mysql pgsql sqlite3}
 
-node[:php][:modules].each do |mod|
-  include_recipe "php::module_#{mod}" if MODULES.include?(mod)
-end
-
 case node[:platform]
   when "centos", "redhat", "fedora", "suse", "debian"
     #placeholder modify when available
   when "ubuntu"
     if node.platform_version.to_f >= 10.10
+      directory "/var/www" do
+        recursive true
+      end
+
       package "php5-fpm" do
         action :upgrade
       end
     end
+end
+
+node[:php][:modules].each do |mod|
+  include_recipe "php::module_#{mod}" if MODULES.include?(mod)
 end
