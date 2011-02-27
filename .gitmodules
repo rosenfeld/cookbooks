@@ -42,7 +42,7 @@
 	url = git://github.com/fnichol/chef-swftools.git
 [submodule "gitorious"]
 	path = gitorious
-	url = git://github.com/fnichol/chef-gitorious.git
+	url = git://github.com/rosenfeld/chef-gitorious.git
 [submodule "jenkins"]
 	path = jenkins
 	url = git://github.com/fnichol/chef-jenkins.git
