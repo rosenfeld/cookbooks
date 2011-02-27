@@ -19,6 +19,8 @@
 
 package "vim"
 
+cookbook_file("/etc/vim/vimrc.local"){ source "vimrc.local" }
+
 node[:vim][:extra_packages].each do |vimpkg|
   package vimpkg
 end
