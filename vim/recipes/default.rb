@@ -24,3 +24,6 @@ cookbook_file("/etc/vim/vimrc.local"){ source "vimrc.local" }
 node[:vim][:extra_packages].each do |vimpkg|
   package vimpkg
 end
+
+update_editor = lambda { execute "update-alternatives --set editor /usr/bin/vim.basic" }
+ruby_block("Update editor alternatives to vim") { block &update_editor }
