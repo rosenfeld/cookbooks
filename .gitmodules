@@ -31,9 +31,6 @@
 [submodule "mythtv"]
 	path = mythtv
 	url = git://github.com/fnichol/chef-mythtv.git
-[submodule "alfresco"]
-	path = alfresco
-	url = git://github.com/fnichol/chef-alfresco.git
 [submodule "transmission"]
 	path = transmission
 	url = git://github.com/fnichol/chef-transmission.git
