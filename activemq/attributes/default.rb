@@ -19,3 +19,4 @@
 
 default[:activemq][:mirror]  = "http://mirrors.ibiblio.org/pub/mirrors"
 default[:activemq][:version] = "5.3.2"
+default[:activemq][:memory]  = "256M"

@@ -40,4 +40,6 @@ file "/opt/apache-activemq-#{version}/bin/activemq" do
   mode "0755"
 end
 
+template("/etc/activemq.conf") { source "activemq.conf.erb" }
+
 runit_service "activemq"
