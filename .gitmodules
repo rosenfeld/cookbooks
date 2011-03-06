@@ -9,7 +9,7 @@
 	url = git://github.com/rosenfeld/chef-rvm.git
 [submodule "rvm_passenger"]
 	path = rvm_passenger
-	url = git://github.com/fnichol/chef-rvm_passenger.git
+	url = git://github.com/rosenfeld/chef-rvm_passenger.git
 [submodule "nginx_http_auth_pam"]
 	path = nginx_http_auth_pam
 	url = git://github.com/fnichol/chef-nginx_http_auth_pam.git
